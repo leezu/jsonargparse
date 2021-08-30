@@ -3,6 +3,7 @@
 import inspect
 import re
 from argparse import Namespace
+import dataclasses
 from functools import wraps
 from typing import Any, Callable, List, Optional, Set, Tuple, Type, Union
 
@@ -547,6 +548,8 @@ def group_instantiate_class(group, cfg):
         parent = cfg
         key = group.dest
         assert '.' not in key
+    if dataclasses.is_dataclass(value):
+        value = dataclasses.asdict(value)
     parent[key] = group.group_class(**value)
 
 
